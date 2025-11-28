@@ -19,6 +19,7 @@ import LevelUpModal from './components/LevelUpModal';
 import Confetti from './components/Confetti';
 import BalanceCard from './components/BalanceCard';
 import AddExpenseModal from './components/AddExpenseModal';
+import ProfileModal from './components/ProfileModal'; // <--- IMPORT
 
 
 // --- Utils ---

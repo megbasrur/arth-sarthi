@@ -1,52 +1,74 @@
 import React from 'react';
-import { DollarSign, Star, Trophy } from 'lucide-react';
+import { DollarSign, Star, Trophy, User } from 'lucide-react';
 import { moodProfiles } from '../data/financialData';
 
-const Header = ({ level, xp, maxXp, points, mood }) => {
+const Header = ({ level, xp, maxXp, points, mood, onProfileClick }) => {
   const xpPercentage = (xp / maxXp) * 100;
   const moodData = moodProfiles[mood] || moodProfiles.motivational;
   
   return (
-    <header
-  className={`bg-gradient-to-r ${moodData.color} text-white p-10 pb-20 md:rounded-b-3xl lg:rounded-b-4xl shadow-lg relative z-10 border-1 border-black`}
->
+    <header className={`bg-gradient-to-r ${moodData.color} text-white p-6 md:p-10 pb-16 md:pb-20 md:rounded-b-3xl lg:rounded-b-4xl shadow-lg relative z-10 transition-colors duration-500`}>
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-3 md:mb-2 gap-3">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+          
           {/* Logo & Mood Section */}
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <DollarSign className="w-6 h-6 md:w-8 md:h-8" />
-              <div className="absolute -top-1 -right-1 text-lg md:text-xl">{moodData.emoji}</div>
+          <div className="flex items-center justify-between w-full md:w-auto">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <DollarSign className="w-8 h-8 md:w-10 md:h-10" />
+                <div className="absolute -top-1 -right-1 text-xl animate-bounce">{moodData.emoji}</div>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold leading-tight">Artha Saarthi AI</h1>
+                <p className="text-xs opacity-90 font-medium tracking-wide uppercase">{moodData.tone} mode</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold leading-tight">FinCoach AI</h1>
-              <p className="text-xs opacity-90">{moodData.tone} mode</p>
-            </div>
+
+            {/* Mobile Profile Button (Visible only on small screens) */}
+            <button 
+              onClick={onProfileClick}
+              className="md:hidden bg-white/20 p-2 rounded-full backdrop-blur-md hover:bg-white/30 transition"
+            >
+              <User className="w-6 h-6 text-white" />
+            </button>
           </div>
 
-          {/* Stats Section */}
-          <div className="flex items-center justify-between md:justify-end gap-3 w-full md:w-auto">
-            <div className="flex items-center gap-1 bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm flex-1 md:flex-none justify-center">
-              <Star className="w-3 h-3 md:w-4 md:h-4 text-yellow-300" />
-              <span className="font-bold text-xs md:text-sm">{points} pts</span>
+          {/* Stats & Desktop Profile Section */}
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <div className="flex items-center justify-between gap-3 w-full md:w-auto bg-black/20 md:bg-transparent p-1 md:p-0 rounded-xl">
+              <div className="flex items-center gap-1 bg-black/40 px-4 py-2 rounded-lg md:rounded-full backdrop-blur-sm flex-1 justify-center">
+                <Star className="w-4 h-4 text-yellow-300 fill-yellow-300" />
+                <span className="font-bold text-sm">{points} pts</span>
+              </div>
+              <div className="flex items-center gap-1 bg-black/40 px-4 py-2 rounded-lg md:rounded-full backdrop-blur-sm flex-1 justify-center">
+                <Trophy className="w-4 h-4 text-orange-300" />
+                <span className="font-bold text-sm">Lvl {level}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1 bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm flex-1 md:flex-none justify-center">
-              <Trophy className="w-4 h-4 md:w-5 md:h-5 text-yellow-300" />
-              <span className="font-bold text-xs md:text-sm">Lvl {level}</span>
-            </div>
+
+            {/* Desktop Profile Button */}
+            <button 
+              onClick={onProfileClick}
+              className="hidden md:flex bg-white/20 p-2.5 rounded-full backdrop-blur-md hover:bg-white/30 transition shadow-lg border border-white/10"
+              title="My Profile"
+            >
+              <User className="w-5 h-5 text-white" />
+            </button>
           </div>
         </div>
 
         {/* XP Bar */}
-        <div className="relative w-full bg-white/50 rounded-full h-2 md:h-3 overflow-hidden backdrop-blur-sm mt-5">
+        <div className="relative w-full bg-black/20 rounded-full h-3 overflow-hidden backdrop-blur-sm mt-2 border border-white/10">
           <div 
-            className="absolute inset-0 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 transition-all duration-500 rounded-full"
+            className="absolute inset-0 bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-500 transition-all duration-1000 ease-out rounded-full"
             style={{ width: `${xpPercentage}%` }}
           >
             <div className="absolute inset-0 bg-white/30 animate-shimmer"></div>
           </div>
         </div>
-        <p className="text-[10px] md:text-xs mt-1 text-white/90 font-medium text-right">{xp} / {maxXp} XP to next level</p>
+        <p className="text-[10px] uppercase tracking-wider mt-2 text-white/80 font-bold text-right">
+          {Math.floor(xp)} / {maxXp} XP to next level
+        </p>
       </div>
     </header>
   );
